@@ -1,3 +1,62 @@
 {
-	"streams": []
+  "streams": [
+    {
+      "title": "stream 1",
+      "description": "first stream",
+      "id": 1
+    },
+    {
+      "title": "2",
+      "description": "test",
+      "id": 2
+    },
+    {
+      "title": "2",
+      "description": "test",
+      "id": 3
+    },
+    {
+      "title": "2",
+      "description": "3",
+      "id": 4
+    },
+    {
+      "title": "das",
+      "description": "das",
+      "id": 5
+    },
+    {
+      "title": "sdad",
+      "description": "fdsa",
+      "id": 6
+    },
+    {
+      "title": "fdsaf",
+      "description": "fdsafasd",
+      "id": 7
+    },
+    {
+      "title": "test",
+      "description": "dsaf",
+      "id": 8
+    },
+    {
+      "title": "Stream with userId",
+      "description": "testing userId",
+      "userId": "113568215905527550334",
+      "id": 9
+    },
+    {
+      "title": "unexpected behavior",
+      "description": "Didnt work",
+      "userId": "113568215905527550334",
+      "id": 10
+    },
+    {
+      "title": "ttest history",
+      "description": "history stream",
+      "userId": "113568215905527550334",
+      "id": 11
+    }
+  ]
 }

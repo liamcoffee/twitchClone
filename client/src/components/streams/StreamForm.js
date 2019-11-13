@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStream } from '../../actions';
+import { Field, reduxForm } from 'redux-form';
 
-class StreamCreate extends React.Component {
+class StreamForm extends React.Component {
 	renderError({ error, touched }) {
 		if (touched && error) {
 			return (
@@ -24,9 +23,9 @@ class StreamCreate extends React.Component {
 		);
 	};
 
-	// get form data from handleSubmit, only fires if validation is passed. i.e. no errors.
+	// get form data from handleSubmit, only fires if validation is passed. i.e. no errors. this action is passed from parent component
 	onSubmit = (formValues) => {
-		this.props.createStream(formValues);
+		this.props.onSubmit(formValues);
 	};
 
 	render() {
@@ -61,10 +60,7 @@ const validate = (formValues) => {
 
 // combine the connect function and redux-form
 
-const formWrapped = reduxForm({
-	form: 'streamCreate',
+export default reduxForm({
+	form: 'streamForm',
 	validate
-})(StreamCreate);
-
-// 1) mapstatetoprops, actionCreator
-export default connect(null, { createStream })(formWrapped);
+})(StreamForm);
