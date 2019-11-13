@@ -43,11 +43,13 @@ export const fetchStream = (streamId) => async (dispatch) => {
 	dispatch({ type: FETCH_STREAM, payload: response.data });
 };
 
-// edit the stream
-export const edit = (streamId, formValues) => async (dispatch) => {
-	const repsonse = await streams.put(`/stream/${streamId}`, formValues);
+// edit the stream, changed to patch as put updates all  records, removing non passed values. Used PATCH INSTEAD
+export const editStream = (streamId, formValues) => async (dispatch) => {
+	const repsonse = await streams.patch(`/streams/${streamId}`, formValues);
 
 	dispatch({ type: EDIT_STREAM, payload: repsonse.data });
+
+	createBrowserHistory.push('/');
 };
 
 // delete the stream
