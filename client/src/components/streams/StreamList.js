@@ -1,15 +1,29 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchStreams } from '../../actions';
+import axios from 'axios';
 
-class streamList extends React.Component {
-	componentDidMount() {
-		this.props.fetchStreams();
-	}
+export const StreamList = () => {
+	const dispatch = useDispatch();
 
-	renderAdmin(stream) {
-		if (stream.userId === this.props.currentUserId) {
+	// dispatch our action! only called once because second array is passed.
+	useEffect(() => {
+		dispatch(fetchStreams());
+	}, []);
+
+	// get streams from store
+	const streams = Object.values(useSelector((state) => state.streams));
+
+	// get current userId from store
+	const userId = useSelector((state) => state.auth.userId);
+
+	// get value of isSignedIn
+	const isSignedIn = useSelector((state) => state.auth.isSignedIn);
+
+	const renderAdmin = (stream, userId) => {
+		console.log(`running ${userId} stream id is ${stream.id}`);
+		if (stream.userId === userId) {
 			return (
 				<div className="right floated content">
 					<Link to={`/streams/edit/${stream.id}`} className="ui button primary">
@@ -21,13 +35,13 @@ class streamList extends React.Component {
 				</div>
 			);
 		}
-	}
+	};
 
-	renderList() {
-		return this.props.streams.map((stream) => {
+	const renderList = (streams) => {
+		return streams.map((stream) => {
 			return (
 				<div className="item" key={stream.id}>
-					{this.renderAdmin(stream)}
+					{renderAdmin(stream, userId)}
 					<i className="large middle aligned icon camera" />
 					<div className="content">
 						<Link to={`/streams/${stream.id}`}>{stream.title}</Link>
@@ -36,10 +50,10 @@ class streamList extends React.Component {
 				</div>
 			);
 		});
-	}
+	};
 
-	renderCreate() {
-		if (this.props.isSignedIn) {
+	const renderCreate = () => {
+		if (isSignedIn) {
 			return (
 				<div style={{ textAlign: 'right' }}>
 					<Link to="/streams/new" className="ui button primary">
@@ -48,26 +62,12 @@ class streamList extends React.Component {
 				</div>
 			);
 		}
-	}
-
-	render() {
-		return (
-			<div>
-				<h2>Streams</h2>
-				<div className="ui celled list">{this.renderList()}</div>
-				{this.renderCreate()}
-			</div>
-		);
-	}
-}
-
-const mapStateToProps = (state) => {
-	// convert object to array so we can .map over it
-	return {
-		streams: Object.values(state.streams),
-		currentUserId: state.auth.userId,
-		isSignedIn: state.auth.isSignedIn
 	};
-};
 
-export default connect(mapStateToProps, { fetchStreams })(streamList);
+	return (
+		<>
+		<div className="ui celled list">{renderList(streams)}</div>
+		{renderCreate()}
+		</>
+	); 
+};
